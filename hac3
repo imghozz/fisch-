@@ -1,0 +1,45 @@
+
+local tab = { id = 1, name = "Hacks for Fisch", content = "Hacks for Fisch" }
+
+-- Features for the tab
+local hacks = {
+    autoFish = { enabled = false, label = "Auto Fish", x = 50, y = 150 },
+    instantReel = { enabled = false, label = "Instant Reel", x = 50, y = 200 },
+    fastShake = { enabled = false, label = "Fast Shake", x = 50, y = 250 }
+}
+
+function love.load()
+    love.graphics.setFont(love.graphics.newFont(18))
+end
+
+function love.mousepressed(x, y, buttonCode, istouch, presses)
+    if buttonCode == 1 then
+        -- Check if any feature's checkbox was clicked
+        for _, feature in pairs(hacks) do
+            if x > feature.x and x < feature.x + 20 and
+               y > feature.y and y < feature.y + 20 then
+                feature.enabled = not feature.enabled
+            end
+        end
+    end
+end
+
+function love.draw()
+    -- Draw the tab
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf(tab.name, 50, 50, love.graphics.getWidth() - 100, "left")
+
+    -- Draw each feature's checkbox
+    for _, feature in pairs(hacks) do
+        -- Draw checkbox
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.rectangle("line", feature.x, feature.y, 20, 20)
+        if feature.enabled then
+            love.graphics.line(feature.x, feature.y, feature.x + 20, feature.y + 20)
+            love.graphics.line(feature.x + 20, feature.y, feature.x, feature.y + 20)
+        end
+
+        -- Draw feature label
+        love.graphics.printf(feature.label, feature.x + 30, feature.y, love.graphics.getWidth() - 100, "left")
+    end
+end
